@@ -32,4 +32,11 @@ public:
     void saveToFile() const;
 };
 
+void addBook(LinkedList& list);
+void delBook(LinkedList& list);
+void showBook(const LinkedList& list);
+void showBooks(const LinkedList& list);
+void popList(LinkedList& list);
+int menu();
+
 #endif

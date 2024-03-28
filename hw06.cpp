@@ -1,111 +1,33 @@
 #include "hw06.h"
 
-LinkedList::LinkedList() : head(nullptr) {}
+int main() {
+    LinkedList list;
 
-LinkedList::~LinkedList()
-{
-    clear();
-}
+    popList(list);
 
-void LinkedList::insert(const Book &book)
-{
-    Node *newNode = new Node(book);
-    newNode->next = head;
-    head = newNode;
-}
+    int choice = 0;
+    while (choice != 5) {
+        choice = menu();
 
-void LinkedList::remove(const std::string &isbn)
-{
-    Node *current = head;
-    Node *previous = nullptr;
-
-    while (current != nullptr && current->data.isbn != isbn)
-    {
-        previous = current;
-        current = current->next;
+        if (choice == 1) {
+            addBook(list);
+        }
+        else if (choice == 2) {
+            delBook(list);
+        }
+        else if (choice == 3) {
+            showBook(list);
+        }
+        else if (choice == 4) {
+            showBooks(list);
+        }
+        else if (choice == 5) {
+            list.saveToFile();
+            std::cout << "Changes saved. Exiting.." << std::endl;
+        }
+        else {
+            std::cout << "Invalid choice." << std::endl;
+        }
     }
-
-    if (current == nullptr)
-    {
-        std::cout << "Book with ISBN " << isbn << "not found." << std::endl;
-        return;
-    }
-
-    if (previous == nullptr)
-    {
-        head = head->next;
-    }
-    else
-    {
-        previous->next = current->next;
-    }
-
-    delete current;
-}
-
-void LinkedList::display(const std::string &isbn) const
-{
-    Node *current = head;
-    while (current != nullptr && current->data.isbn != isbn)
-    {
-        current = current->next;
-    }
-    if (current != nullptr)
-    {
-        std::cout << "Title: " << current->data.title << std::endl;
-        std::cout << "Author " << current->data.author << std::endl;
-        std::cout << "ISBN: " << current->data.isbn << std::endl;
-    }
-    else
-    {
-        std::cout << "Book with ISBN " << isbn << " not found." << std::endl;
-    }
-}
-
-void LinkedList::displayAll() const {
-    Node* current = head;
-    while (current != nullptr) {
-        std::cout << "Title: " << current->data.title << std::endl;
-        std::cout << "Author: " << current->data.author << std::endl;
-        std::cout << "ISBN: " << current->data.isbn << std::endl;
-        current = current->next;
-    }
-}
-
-void LinkedList::clear() {
-    while (head!= nullptr) {
-        Node* temp = head;
-        head = head->next;
-        delete temp;
-    }
-}
-
-void LinkedList::populateFromFile() {
-    std::ifstream file("booksdb.txt");
-    if (!file.is_open()) {
-        std::cout << "File unable to be opened." << std::endl;
-        return;
-    }
-    std::string isbn, author, title;
-    while (std::getline(file, isbn) && std::getline(file, author) && std::getline(file, title)) {
-    Book book = {isbn, author, title};
-    insert(book);
-    }
-    file.close();
- }
-
-void LinkedList::saveToFile() const {
-    std::ofstream file("booksdb.txt");
-    if (!file.is_open()){
-        std::cout <<"Unable to open file." << std::endl;
-        return;
-    }
-    Node* current = head;
-    while (current != nullptr) {
-        file << current->data.isbn << std::endl;
-        file << current->data.author << std::endl;
-        file << current->data.title << std::endl;
-        current = current->next;
-    }
-    file.close();
+    return 0;
 }
