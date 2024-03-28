@@ -2,6 +2,8 @@
 #define HW06_H
 
 #include <string>
+#include <iostream>
+#include <fstream>
 
 struct Book {
     std::string isbn;

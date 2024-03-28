@@ -1,5 +1,4 @@
 #include "hw06.h"
-#include <iostream>
 
 LinkedList::LinkedList() : head(nullptr) {}
 
@@ -66,6 +65,47 @@ void LinkedList::display(const std::string &isbn) const
 void LinkedList::displayAll() const {
     Node* current = head;
     while (current != nullptr) {
-        std::cout << "Title " << current->data.title << std::endl;
+        std::cout << "Title: " << current->data.title << std::endl;
+        std::cout << "Author: " << current->data.author << std::endl;
+        std::cout << "ISBN: " << current->data.isbn << std::endl;
+        current = current->next;
     }
+}
+
+void LinkedList::clear() {
+    while (head!= nullptr) {
+        Node* temp = head;
+        head = head->next;
+        delete temp;
+    }
+}
+
+void LinkedList::populateFromFile() {
+    std::ifstream file("booksdb.txt");
+    if (!file.is_open()) {
+        std::cout << "File unable to be opened." << std::endl;
+        return;
+    }
+    std::string isbn, author, title;
+    while (std::getline(file, isbn) && std::getline(file, author) && std::getline(file, title)) {
+    Book book = {isbn, author, title};
+    insert(book);
+    }
+    file.close();
+ }
+
+void LinkedList::saveToFile() const {
+    std::ofstream file("booksdb.txt");
+    if (!file.is_open()){
+        std::cout <<"Unable to open file." << std::endl;
+        return;
+    }
+    Node* current = head;
+    while (current != nullptr) {
+        file << current->data.isbn << std::endl;
+        file << current->data.author << std::endl;
+        file << current->data.title << std::endl;
+        current = current->next;
+    }
+    file.close();
 }
