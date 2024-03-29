@@ -10,5 +10,7 @@ int menu() {
     std::cout << "5. Save and exit" << std::endl;
     std::cout << "Enter your choice: ";
     std::cin >> choice;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    
     return choice;
 }

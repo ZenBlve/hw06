@@ -68,6 +68,7 @@ void LinkedList::displayAll() const {
         std::cout << "Title: " << current->data.title << std::endl;
         std::cout << "Author: " << current->data.author << std::endl;
         std::cout << "ISBN: " << current->data.isbn << std::endl;
+        std::cout << std::endl;
         current = current->next;
     }
 }
@@ -105,6 +106,7 @@ void LinkedList::saveToFile() const {
         file << current->data.isbn << std::endl;
         file << current->data.author << std::endl;
         file << current->data.title << std::endl;
+        file << std::endl;
         current = current->next;
     }
     file.close();
